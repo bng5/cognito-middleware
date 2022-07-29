@@ -1,0 +1,22 @@
+@startuml
+participant Client
+participant Cognito
+participant Proxy
+participant GitHub
+
+Client -> Cognito: Authentication Request
+Cognito -> Client: Redirect to GitHub
+Client -> GitHub: /login/oauth/authorize
+GitHub -> GitHub: Login and authorize
+GitHub -> Client: Redirect back to Cognito
+Client -> Cognito: /oauth2/idpresponse
+
+Cognito -> Proxy: /login/oauth/access_token
+Proxy -> GitHub: /login/oauth/access_token
+GitHub -> Proxy: token
+Proxy -> Cognito: token
+
+Cognito -> Proxy: /user
+Proxy -> GitHub: /user
+
+@enduml
