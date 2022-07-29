@@ -1,0 +1,8 @@
+#set($body = $input.path('$'))
+#set($body.sub = $body.id)
+#if(!$body.email)
+  #set($body.email_or_fake = $body.email)
+#else
+  #set($body.email_or_fake = "githubuser_${body.id}@${context.domainName}")
+#end
+$input.json('$')

@@ -1,0 +1,2 @@
+$input.json("$")
+#set($context.requestOverride.header.Authorization = $input.params('Authorization').replace("Bearer", "token"))
