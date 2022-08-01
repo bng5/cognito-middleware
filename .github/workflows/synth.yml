@@ -1,0 +1,21 @@
+name: Synthesize and publish the CloudFormation template
+on:
+  push:
+    branches:
+      - master
+jobs:
+  cdk-synth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Synthesize the CloudFormation template
+        uses: youyo/aws-cdk-github-actions@v2
+        with:
+          cdk_subcommand: synth
+
+      - name: Upload template to Release
+        run: gh release upload latest cdk.out/CognitoMiddlewareStack.template.json --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
